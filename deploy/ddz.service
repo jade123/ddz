@@ -1,0 +1,16 @@
+[Unit]
+Description=Dou Dizhu realtime game
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/ddz
+Environment=NODE_ENV=production
+Environment=PORT=25174
+ExecStart=/usr/bin/node /var/www/ddz/server.js
+Restart=always
+RestartSec=3
+User=root
+
+[Install]
+WantedBy=multi-user.target
