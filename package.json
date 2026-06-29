@@ -1,0 +1,14 @@
+{
+  "name": "ddz",
+  "version": "1.0.0",
+  "description": "Realtime Dou Dizhu with online invites and AI mode.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
