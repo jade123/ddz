@@ -39,6 +39,29 @@ function isRed(card) {
   return card.red ? " red" : "";
 }
 
+function cardAsset(card) {
+  if (card.label === "牌背") return "/assets/cards/card_back.png";
+  if (card.rank === 16) return "/assets/cards/joker_small.png";
+  if (card.rank === 17) return "/assets/cards/joker_big.png";
+
+  const suitMap = {
+    "♠": "spades",
+    "♥": "hearts",
+    "♦": "diamonds",
+    "♣": "clubs"
+  };
+  const rankMap = {
+    11: "J",
+    12: "Q",
+    13: "K",
+    14: "A",
+    15: "2"
+  };
+  const suit = suitMap[card.suit];
+  const rank = rankMap[card.rank] || String(card.rank);
+  return suit ? `/assets/cards/${suit}_${rank}.png` : "/assets/cards/card_back.png";
+}
+
 function connectEvents(playerId) {
   if (source) source.close();
   source = new EventSource(`/events?playerId=${encodeURIComponent(playerId)}`);
@@ -136,10 +159,10 @@ function seatMarkup(seat) {
 
 function cardMarkup(card, selectable = false) {
   const chosen = selected.has(card.id) ? " selected" : "";
+  const asset = cardAsset(card);
   return `
-    <button class="card${isRed(card)}${chosen}" ${selectable ? `data-card="${card.id}"` : ""}>
-      <span>${h(card.label)}</span>
-      <b>${h(card.suit && card.rank < 16 ? card.suit : "")}</b>
+    <button class="card image-card${isRed(card)}${chosen}" aria-label="${h(card.label)}" ${selectable ? `data-card="${card.id}"` : ""}>
+      <img src="${asset}" alt="${h(card.label)}" loading="lazy" />
     </button>
   `;
 }
